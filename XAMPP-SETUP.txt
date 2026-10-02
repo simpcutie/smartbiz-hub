@@ -1,0 +1,51 @@
+SMARTBIZ HUB — XAMPP SETUP
+
+THIS COMPUTER
+Start Apache and MySQL in XAMPP Control Panel.
+Open http://127.0.0.1:8081 or double-click START-SMARTBIZ.cmd.
+Apache serves this project's public folder; no artisan serve window is needed.
+Database: smartbiz_hub_laravel, hosted by XAMPP MariaDB through Laravel's mysql driver.
+The original smartbiz_hub database was not changed.
+The former SQLite database is retained locally as a backup, not used by the app.
+Existing 46 business records were transferred and compared across all 11 entities.
+The approved customer birth date correction is November 24, 2004.
+
+ANOTHER COMPUTER / FRESH DOWNLOAD
+1. Install XAMPP with PHP 8.2+ and enable/start Apache and MySQL.
+2. For a GitHub source download, run composer install --no-dev.
+   The full prototype ZIP already includes vendor dependencies.
+3. In phpMyAdmin, create smartbiz_hub_laravel with utf8mb4_unicode_ci collation.
+4. Copy .env.example to .env, then enter your own database username/password.
+5. Run php artisan key:generate and php artisan migrate --seed.
+   Do not seed over records you need; this is for a fresh demonstration database.
+6. Add the following to XAMPP apache/conf/extra/httpd-vhosts.conf, replacing
+   C:/path/to/project with the actual extracted project directory:
+
+Listen 127.0.0.1:8081
+<VirtualHost 127.0.0.1:8081>
+    ServerName localhost
+    DocumentRoot "C:/path/to/project/public"
+    <Directory "C:/path/to/project/public">
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require local
+    </Directory>
+</VirtualHost>
+
+7. Run C:\xampp\apache\bin\httpd.exe -t. If Syntax OK, restart Apache.
+8. Open http://127.0.0.1:8081.
+
+If PHP is not on PATH, use C:\xampp\php\php.exe instead of php.
+Do not point Apache at the project root: it must serve public/ only.
+The download excludes live records, .env and the former SQLite database.
+Demo seeding supplies fictional accounts and transactions for a fresh installation.
+
+DEMO LOGINS
+Admin: admin@oneoptics.test / DemoAdmin123!
+Staff: staff@oneoptics.test / DemoStaff123!
+Customer: customer@oneoptics.test / DemoCustomer123!
+
+SCOPE
+See SCOPE-AND-LIMITATIONS.txt and ERD-ENTITY-MAP.txt.
+The 11 business entities and transaction workflow remain unchanged.
+Payments are staff-recorded; no live gateway or real-time courier tracking exists.

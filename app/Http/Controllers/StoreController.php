@@ -264,7 +264,7 @@ class StoreController extends Controller
 
     public function profile(Request $r)
     {
-        $data = $r->validate(['name' => 'required|string|max:150', 'phone' => 'required|string|max:30', 'address' => 'nullable|string|max:500', 'birth_date' => 'nullable|date|before_or_equal:today', 'current_password' => 'required_with:password|nullable|current_password', 'password' => 'nullable|confirmed|min:8|max:100']);
+        $data = $r->validate(['name' => 'required|string|max:150', 'phone' => 'required|string|max:30', 'address' => 'nullable|string|max:500', 'birth_date' => 'nullable|date_format:Y-m-d|after_or_equal:1900-01-01|before_or_equal:today', 'current_password' => 'required_with:password|nullable|current_password', 'password' => 'nullable|confirmed|min:8|max:100']);
         DB::transaction(function () use ($r, $data) {
             $r->user()->update(collect($data)->only(['name', 'phone'])->all());
             $r->user()->customer->update(collect($data)->only(['name', 'phone', 'address', 'birth_date'])->all());

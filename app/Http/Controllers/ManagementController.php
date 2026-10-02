@@ -112,7 +112,7 @@ class ManagementController extends Controller
             }
         }
         if ($resource === 'customers') {
-            $rules['birth_date'] = 'nullable|date|before_or_equal:today';
+            $rules['birth_date'] = 'nullable|date_format:Y-m-d|after_or_equal:1900-01-01|before_or_equal:today';
         }
         if ($resource === 'products') {
             $rules['code'] = ['required', 'string', 'max:50', Rule::unique('products', 'code')->ignore($id)];
