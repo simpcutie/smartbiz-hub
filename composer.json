@@ -29,11 +29,6 @@
       "Database\\Seeders\\": "database/seeders/"
     }
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\": "tests/"
-    }
-  },
   "scripts": {
     "setup": [
       "composer install",
@@ -45,10 +40,6 @@
     "dev": [
       "Composer\\Config::disableProcessTimeout",
       "@php artisan serve --host=127.0.0.1 --port=8099"
-    ],
-    "test": [
-      "@php artisan config:clear --ansi",
-      "@php artisan test"
     ],
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

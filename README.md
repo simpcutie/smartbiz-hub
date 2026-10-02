@@ -12,7 +12,7 @@ Bootstrap, CSS and JavaScript assets; no frontend build is needed to run it.
 Run these commands in a fresh clone:
 
 ```powershell
-composer install
+composer install --no-dev
 Copy-Item .env.example .env
 php artisan key:generate
 New-Item database/database.sqlite -ItemType File
@@ -34,12 +34,8 @@ Seeder-generated fictional accounts for local demonstration only:
 | Staff | staff@oneoptics.test | DemoStaff123! |
 | Customer | customer@oneoptics.test | DemoCustomer123! |
 
-## Tests
-`php artisan test` uses an isolated in-memory database. Latest local audit:
-24 tests passed, 281 assertions.
-
 ## Scope
-See SCOPE-AND-LIMITATIONS.txt, ERD-ENTITY-MAP.txt and SCOPE-AUDIT.txt.
+See SCOPE-AND-LIMITATIONS.txt and ERD-ENTITY-MAP.txt.
 Payment methods store staff-entered records, not live gateway transactions.
 Delivery updates are entered by staff; there is no real-time courier tracking.
 No manufacturing, advanced CRM or multi-tenant SaaS features are included.
@@ -49,3 +45,8 @@ This source edition excludes .env, live databases, uploaded files, runtime
 sessions/logs/cache and vendor dependencies. Composer installs dependencies;
 migrations and the seeder recreate a fresh demo database. Never commit real
 customer information, local configuration or credentials.
+
+This simplified source copy omits automated tests and unused frontend build
+scaffolding. Keep database/migrations and database/seeders: they are required
+to recreate the database on another computer. Optional development packages
+remain recorded in Composer but are skipped by the --no-dev setup command.
