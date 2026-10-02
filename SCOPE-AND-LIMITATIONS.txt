@@ -1,0 +1,83 @@
+SmartBiz Hub: Online Customer, Order, and Billing Platform
+
+PROFESSOR'S SCOPE AND LIMITATIONS
+Transcribed from the scope image supplied by the student. This replaces the
+previous proposed expansion; the professor's scope is the governing reference.
+
+Scope
+The system will handle customer registration, order taking (walk-in or online
+order entry), billing/invoicing, order status tracking, and basic customer
+communication (order confirmation). It aims to streamline the order-to-billing
+process and improve customer service for businesses that take orders.
+
+Limitations
+- Does not include full inventory deduction automation linked to complex production.
+- No advanced CRM features (marketing campaigns, loyalty points, or customer
+  segmentation analytics).
+- Payment collection is recorded manually or via proof of payment (no live
+  payment gateway).
+- Limited to single-business use (no multi-tenant SaaS features).
+- No delivery route optimization or real-time tracking.
+
+Possible Modules (Examples)
+- Customer Management Module
+- Order Entry & Management
+- Billing / Invoice Generation
+- Order Status Tracking
+- Basic Customer Notifications
+- Sales & Order Reports
+
+IMPLEMENTATION NOTES — NOT CHANGES TO THE PROFESSOR'S SCOPE
+The existing prototype uses manual payment recording rather than proof uploads.
+Its basic customer communication is an on-screen order confirmation and order
+status page. It does not send email/SMS or use courier location tracking.
+
+REQUIRED ERD AND IMPLEMENTATION BOUNDARY
+The student confirmed that the professor also requires the 11-entity ERD.
+Keep User, Supplier, Purchase Order, Purchase Order Item, Product, Stock
+Management, Customer, Customer Order, Order Item, Billing, and Payment.
+
+Purchasing and inventory are supporting functions for those required entities:
+supplier records, purchase orders, partial/full receiving, stock balances,
+reservation for customer orders, deduction on completion, and release on
+cancellation. There is no manufacturing workflow, bill of materials, production
+scheduling, or deduction based on complex production. This implementation note
+does not replace or expand the professor's scope quoted above.
+
+SCOPE TO CODE MAP
+Customer management: StoreController registration/profile and ManagementController
+customer records, using User and Customer. Registration creates both records
+in one transaction; only the customer's own orders can be viewed by that login.
+Order entry: StoreController checkout and TransactionController walk-in entry,
+using CustomerOrder and OrderItem. ShopService validates quantities and stock.
+Billing/invoicing: ShopService::bill and billing views, using Billing. A bill is
+required before staff can record payments.
+Manual payments: ShopService::pay and billing/show.blade.php, using Payment.
+Amounts reduce the balance; a method and reference never trigger a transfer.
+Order status and basic communication: components/order-update.blade.php and
+orders/show.blade.php use the saved CustomerOrder status. Confirmation includes
+an order reference, current step, and what happens next. No new notification
+table, email/SMS delivery, or read/unread notification inbox is introduced.
+Reports: ManagementController reports and manage/reports.blade.php summarize
+orders, sales and manually recorded payments, with supporting purchase/stock
+summaries from the required ERD entities.
+Delivery: staff manually enters the courier reference and advances order status.
+There is no live courier integration, real-time location or route optimization.
+
+DEFENSE DEMONSTRATION
+1. Register a customer; show the corresponding Customers entry as Admin/Staff.
+2. Place an online order and show its order number and on-screen confirmation.
+3. Show staff walk-in order entry as the alternative ordering method.
+4. Process the order and generate its bill before recording payment.
+5. Record a partial payment and then the remaining amount; show the updated
+   balance, printable invoice and receipts. Explain that no money is transferred.
+6. For pickup, mark ready and complete after full payment. For delivery, mark
+   ready, enter a courier reference, dispatch after full payment, then complete.
+7. Reopen the customer's order page to show the current step and next-step text.
+8. Show sales/order reports. Demonstrate purchase receiving and basic product
+   stock movements as the supporting workflow for the required ERD.
+
+This is a single-business school prototype for One Optics Clinic. It includes
+no advanced CRM, multi-tenant SaaS, proof-of-payment upload, clinical records,
+automated refunds, or manufacturing functions. Payment-record voiding corrects
+a record only; it does not return money through a bank or gateway.

@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('title','Create account')
+@section('content')
+<div class="container section-space narrow"><div class="panel"><span class="eyebrow">JOIN ONE OPTICS</span><h1>Create your account</h1><p class="text-muted">Save your details and follow your orders from preparation to pickup or delivery.</p><form method="POST" class="row g-3">@csrf @foreach(['name'=>'Full name','email'=>'Email address','phone'=>'Contact number','address'=>'Address','password'=>'Password','password_confirmation'=>'Confirm password'] as $key=>$label)<div class="col-md-6"><label class="form-label" for="{{ $key }}">{{ $label }}</label><input class="form-control" id="{{ $key }}" name="{{ $key }}" type="{{ str_contains($key,'password')?'password':($key==='email'?'email':'text') }}" value="{{ str_contains($key,'password')?'':old($key) }}" @required($key!=='address') @if(str_contains($key,'password')) minlength="8" autocomplete="new-password" @endif></div>@endforeach<div class="col-12"><button class="btn btn-primary">Create account</button><a class="ms-3" href="{{ route('login') }}">Already registered?</a></div></form></div></div>
+@endsection

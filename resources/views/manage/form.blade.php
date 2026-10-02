@@ -1,0 +1,16 @@
+@extends('layouts.app')
+@section('title',($record->exists?'Edit ':'Add ').$spec['singular'])
+@section('content')
+<div class="page-heading"><div><a class="text-link" href="{{ route('records',$resource) }}">← {{ $spec['title'] }}</a><h1 class="mt-2">{{ $record->exists?'Edit':'Add' }} {{ strtolower($spec['singular']) }}</h1><p>Inactive records remain available in transaction history.</p></div></div><form class="panel row g-3 mx-0" method="POST" action="{{ $record->exists?route('record.update',[$resource,$record->id]):route('record.store',$resource) }}" enctype="multipart/form-data">@csrf @if($record->exists) @method('PUT') @endif
+@foreach($spec['fields'] as $key=>$label)
+@php($options=match($key){'category'=>['Eyeglass Frame','Contact Lenses & Solution','Reading Glasses','Sunglasses','Lens','Accessory'],'frame_type'=>['Full Rim','Semi Rimless','Rimless'],'frame_shape'=>['Round','Rectangle','Cat Eye','Square','Aviator','Oval'],'frame_size'=>['Small','Medium','Large'],'role'=>['Admin','Staff'],default=>[]})
+@php($value=old($key,match($key){'cost'=>number_format(($record->cost_cents ?? 0)/100,2,'.',''),'price'=>number_format(($record->price_cents ?? 0)/100,2,'.',''),'password'=>'','reorder_level'=>$record->reorder_level ?? 5,default=>$record->$key}))
+<div class="{{ in_array($key,['address','description'])?'col-12':'col-md-6' }}"><label class="form-label" for="{{ $key }}">{{ $label }} @if($key==='password' && $record->exists)<small>(leave blank to keep)</small>@endif</label>
+@if($options)<select class="form-select" id="{{ $key }}" name="{{ $key }}">@if(!in_array($key,['category','role']))<option value="">Not specified</option>@endif @foreach($options as $option)<option @selected($value===$option)>{{ $option }}</option>@endforeach</select>
+@elseif(in_array($key,['address','description']))<textarea class="form-control" id="{{ $key }}" name="{{ $key }}" rows="3">{{ $value }}</textarea>
+@else<input class="form-control" id="{{ $key }}" name="{{ $key }}" type="{{ match($key){'email'=>'email','password'=>'password','birth_date'=>'date','cost','price','reorder_level'=>'number',default=>'text'} }}" value="{{ $value }}" @if(in_array($key,['cost','price'])) min="0" step="0.01" @endif @if($key==='reorder_level') min="0" step="1" @endif @required(in_array($key,['name','code','cost','price','reorder_level'])) @if($key==='email' && $resource==='customers' && $record->user_id) readonly @endif>@endif</div>
+@endforeach
+<div class="col-md-6"><label class="form-label" for="active">Status</label><select class="form-select" id="active" name="active"><option value="1" @selected(old('active',$record->active ?? true))>Active</option><option value="0" @selected(!old('active',$record->active ?? true))>Inactive</option></select></div>
+@if($resource==='products')<div class="col-md-6"><label class="form-label" for="image">Product image (JPG, PNG, WebP; up to 2 MB)</label><input class="form-control" id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp"></div><div class="col-12"><p class="small text-muted">Stock is added through purchase receiving or an Admin stock adjustment.</p></div>@endif
+<div class="col-12 d-flex gap-2 mt-4"><button class="btn btn-primary">Save {{ strtolower($spec['singular']) }}</button><a class="btn btn-outline-dark" href="{{ route('records',$resource) }}">Cancel</a></div></form>
+@endsection

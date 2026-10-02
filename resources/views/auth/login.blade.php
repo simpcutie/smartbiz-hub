@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('title','Login')
+@section('content')
+<div class="auth-wrap"><div class="auth-art"><span class="eyebrow">ONE OPTICS CLINIC</span><h1>A clearer view<br>starts here.</h1><img src="{{ asset('assets/frames-2.svg') }}" alt="Modern eyewear"><p>Your eyewear. Your orders. All in one place.</p></div><div class="auth-form"><span class="eyebrow">WELCOME BACK</span><h2>Login to your account</h2><p class="text-muted">View your orders, manage your details, and continue checkout.</p><form method="POST">@csrf<label class="form-label" for="email">Email address</label><input class="form-control mb-3" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username"><label class="form-label" for="password">Password</label><input class="form-control mb-4" id="password" type="password" name="password" required autocomplete="current-password"><button class="btn btn-primary w-100">Login →</button></form><p class="mt-4 small">New to One Optics? <a href="{{ route('register') }}">Create an account</a></p></div></div>
+@endsection

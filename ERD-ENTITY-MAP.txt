@@ -1,0 +1,24 @@
+ERD ENTITY MAPPING (11 BUSINESS ENTITIES)
+1.  User                 -> users                 -> User
+2.  Supplier             -> suppliers             -> Supplier
+3.  Purchase Order       -> purchase_orders       -> PurchaseOrder
+4.  Purchase Order Item  -> purchase_order_items  -> PurchaseOrderItem
+5.  Product              -> products              -> Product
+6.  Stock Management     -> stock_management      -> StockManagement
+7.  Customer             -> customers             -> Customer
+8.  Customer Order       -> customer_orders       -> CustomerOrder
+9.  Order Item           -> order_items           -> OrderItem
+10. Billing              -> billings              -> Billing
+11. Payment              -> payments              -> Payment
+
+There are no Settings, Activity, Stock Movement or Purchase Receipt business
+entities/tables. Settings are application configuration in config/clinic.php,
+with Admin changes saved to storage/app/clinic-settings.json. Dashboard metrics
+are derived from the existing orders and payments. Stock balances, timestamps,
+updated-by user and latest remarks are stored within Stock Management.
+Duplicate-receipt protection is stored within the Purchase Order record.
+Laravel's migrations table is deployment bookkeeping, not a business entity.
+Laravel naming conventions are used for columns, integer centavos for monetary
+values, and reservation/request-token fields within the existing entities.
+Customer profiles and their Laravel authentication accounts use Customer and
+User, both among the 11 entities. No extra authentication entity is introduced.

@@ -1,0 +1,8 @@
+# Local XAMPP safeguard: serve the application only through /public.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(?!public(?:/|$)) - [F,L]
+</IfModule>
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>
