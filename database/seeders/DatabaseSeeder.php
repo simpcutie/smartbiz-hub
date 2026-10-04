@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
             return;
         }
         DB::transaction(function () {
-            $admin = User::create(['name' => 'Clinic Administrator', 'email' => 'admin@oneoptics.test', 'password' => 'DemoAdmin123!', 'role' => 'Admin']);
-            $staff = User::create(['name' => 'Jamie Santos', 'email' => 'staff@oneoptics.test', 'password' => 'DemoStaff123!', 'role' => 'Staff']);
+            $admin = User::create(['name' => 'Clinic Administrator', 'email' => 'admin@oneoptics.test', 'password' => 'admin', 'role' => 'Admin']);
+            $staff = User::create(['name' => 'Jamie Santos', 'email' => 'staff@oneoptics.test', 'password' => 'staff', 'role' => 'Staff']);
             $user = User::create(['name' => 'Alex Reyes', 'email' => 'customer@oneoptics.test', 'password' => 'DemoCustomer123!', 'role' => 'Customer', 'phone' => '09170000001']);
             $customer = $user->customer()->create(['name' => $user->name, 'email' => $user->email, 'phone' => $user->phone, 'address' => 'Demo address, Malate, Manila']);
             $walkin = Customer::create(['name' => 'Morgan Cruz (Demo)', 'phone' => '09170000002', 'address' => 'Demo address, Manila']);

@@ -41,8 +41,8 @@ The download excludes live records, .env and the former SQLite database.
 Demo seeding supplies fictional accounts and transactions for a fresh installation.
 
 DEMO LOGINS
-Admin: admin@oneoptics.test / DemoAdmin123!
-Staff: staff@oneoptics.test / DemoStaff123!
+Admin: admin / admin
+Staff: staff / staff
 Customer: customer@oneoptics.test / DemoCustomer123!
 
 SCOPE

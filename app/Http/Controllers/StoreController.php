@@ -62,9 +62,16 @@ class StoreController extends Controller
 
     public function authenticate(Request $r)
     {
-        $data = $r->validate(['email' => 'required|email', 'password' => 'required|string']);
-        if (! Auth::attempt([...$data, 'active' => true])) {
-            return back()->withErrors(['email' => 'The email or password is incorrect, or the account is inactive.'])->onlyInput('email');
+        $data = $r->validate(['email' => 'required|string|max:150', 'password' => 'required|string']);
+        $login = strtolower(trim($data['email']));
+        // Short usernames identify only the two designated demonstration accounts.
+        $account = match ($login) {
+            'admin' => ['email' => 'admin@oneoptics.test', 'role' => 'Admin'],
+            'staff' => ['email' => 'staff@oneoptics.test', 'role' => 'Staff'],
+            default => ['email' => $login],
+        };
+        if (! Auth::attempt([...$account, 'password' => $data['password'], 'active' => true])) {
+            return back()->withErrors(['email' => 'The username, email, or password is incorrect, or the account is inactive.'])->onlyInput('email');
         }
         $r->session()->regenerate();
 
